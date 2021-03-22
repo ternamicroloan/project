@@ -2,6 +2,7 @@ import express from 'express'
 import asyncHandler from 'express-async-handler'
 import Loan from '../models/LoanModel.js'
 import mongodb from 'mongodb'
+import {protectStudent,protectLender} from '../middleware/authMiddleware.js'
 const router=express.Router()
 
 //@desc Create new Loan
@@ -166,12 +167,12 @@ const getLoansByLenderId =asyncHandler(async(req,res)=>{
     res.json(loans)
 })
 
-router.route('/').post(createNewLoan)
+router.route('/').post(protectStudent,createNewLoan)
 router.route('/:id').get(getLoanById)
-router.route('/:id/granted').put(updateLoanToGranted)
+router.route('/:id/granted').put(protectLender,updateLoanToGranted)
 router.route('/:id/completed').put(updateLoanToCompleted)
-router.route('/:id/installments/:id1').put(updateInstallmentToPaid)
-router.route('/student/:id').get(getLoansByStudentId)
-router.route('/lender/:id').get(getLoansByLenderId)
+router.route('/:id/installments/:id1').put(protectStudent,updateInstallmentToPaid)
+router.route('/student/:id').get(protectStudent,getLoansByStudentId)
+router.route('/lender/:id').get(protectLender,getLoansByLenderId)
 
 export default router

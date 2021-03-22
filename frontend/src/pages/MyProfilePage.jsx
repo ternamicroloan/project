@@ -33,6 +33,7 @@ const MyProfilePage = ({history}) => {
     const [message,setMessage]=useState('')
     const [edit,setEdit]=useState(false)
     const [changePassword,setChangePassword]=useState(false)
+    const [progress,setProgress]=useState(0)
   //  const [updation,setUpdation]=useState()
 
     const studentDetails=useSelector(state=>state.studentDetails)
@@ -56,7 +57,8 @@ const MyProfilePage = ({history}) => {
 
     const url =window.location.pathname.split('/')[1]
 
-   
+
+
     
     useEffect(()=>{
 
@@ -83,6 +85,9 @@ const MyProfilePage = ({history}) => {
                     setAboutMe(student.about_me)
                     setYear(student.year)
                     setSemester(student.semester)
+                    
+                    const count=Math.floor(((((Object.keys(student).length)-7)/15)*100))
+                    setProgress(count)
                 }
             }
         }else if(url==='lender'){
@@ -101,6 +106,8 @@ const MyProfilePage = ({history}) => {
                     setZipcode(lender.zipcode)
                     setAdhaar(lender.adhaar_number)
                     setAboutMe(lender.about_me)
+                    const count=Math.floor(((Object.keys(student).length-7)/9)*100)
+                    setProgress(count)
                 }
             }
         }else{
@@ -121,15 +128,21 @@ const MyProfilePage = ({history}) => {
         setConfirmPassword('')
     }
 
-    const passwordSubmitHandler = (e)=>{
+    const passwordSubmitHandler = async (e)=>{
         e.preventDefault()
         if(password!==confirmPassword){
             alert('Passwords do not match')
         }else{
             if(url==='student'){
-                dispatch(updateStudentProfile({password}))
+                await dispatch(updateStudentProfile({password}))
+                if(updateStudentSuccess){
+                    setMessage('Password Change Successful')
+                }
             }else if(url==='lender'){
-                dispatch(updateLenderProfile({password}))
+                await dispatch(updateLenderProfile({password}))
+                if(updateLenderSuccess){
+                    setMessage('Password Change Successful')
+                }
             }else{
                 //Admin     
             }
@@ -137,12 +150,18 @@ const MyProfilePage = ({history}) => {
         }
     }
 
-    const editProfileSubmitHandler =(e)=>{
+    const editProfileSubmitHandler = async(e)=>{
         e.preventDefault()
         if(url==='student'){
-            dispatch(updateStudentProfile({name,email,address,city,state,zipcode,mobile,adhaar,guardianAdhaar,collegeId,collegeAddress,collegeName,year,semester,aboutMe}))
+            await dispatch(updateStudentProfile({name,email,address,city,state,zipcode,mobile,adhaar,guardianAdhaar,collegeId,collegeAddress,collegeName,year,semester,aboutMe}))
+            if(updateStudentSuccess){
+                setMessage('Profile Update Successful')
+            }
         }else if(url==='lender'){
-            dispatch(updateLenderProfile({name,email,address,city,state,zipcode,mobile,adhaar,aboutMe}))
+            await dispatch(updateLenderProfile({name,email,address,city,state,zipcode,mobile,adhaar,aboutMe}))
+            if(updateLenderSuccess){
+                setMessage('Profile Update Successful')
+            }
         }else{
             //Admin
         }
@@ -188,7 +207,7 @@ const MyProfilePage = ({history}) => {
                 <Col xs={12} md={{span:7,offset:1}} lg={{span:8,offset:1}}>
                     <Row>
                         <Col md={10} xs={12}>
-                            <ProgressBar variant='success' now={100} label={`Profile: 100% `}/>
+                            <ProgressBar variant='success' striped now={progress} label={`Profile: ${progress} % `}/>
                         </Col>
                         <Col md={2} xs={12}>
                             <div style={{display:'flex',flexDirection:'row-reverse',padding:'10px'}}>
@@ -289,8 +308,8 @@ const MyProfilePage = ({history}) => {
                         <div style={{paddingTop:'20px'}}>
                             <h1>Update Profile</h1>
                             {(updateStudentLoading || updateLenderLoading) && <Loader/>}
-                            {((updateStudentError || updateLenderError) && message) && <Message variant='danger'>Update unsuccessful</Message>}
-                            {((updateStudentSuccess || updateLenderSuccess ) && message) && <Message variant='success'>Update successful</Message> }
+                            {((updateStudentError || updateLenderError)) && <Message variant='danger'>Update unsuccessful</Message>}
+                            {((updateStudentSuccess || updateLenderSuccess )) && <Message variant='success'>Update successful</Message> }
                         
                         <Tabs defaultActiveKey="Personal Details" id="uncontrolled-tab-example" style={{paddingTop:'10px'}}>
                             <Tab eventKey="Personal Details" title="Personal Details">

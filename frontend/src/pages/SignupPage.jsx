@@ -7,6 +7,8 @@ import { signupStudent } from '../actions/studentActions'
 import { signupLender } from '../actions/lenderActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import GoogleLogin from 'react-google-login'
+import axios from 'axios'
 
 const SignupPage = ({history,location}) => {
 
@@ -14,14 +16,6 @@ const SignupPage = ({history,location}) => {
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
     const [confirmPassword,setConfirmPassword]=useState('')
-    const [mobileNumber,setMobileNumber]=useState(0)
-    const [collegeID,setCollegeID]=useState('')
-    const [adhaarNumber,setAdhaarNumber]=useState('')
-    const [guardianAdhaarNumber,setGuardianAdhaarNumber]=useState('')
-    const [address,setAddress]=useState('')
-    const [city,setCity]=useState('')
-    const [state,setState]=useState('')
-    const [zipCode,setZipCode]=useState(0)
     const [message,setMessage]=useState('')
 
     const dispatch=useDispatch()
@@ -51,13 +45,38 @@ const SignupPage = ({history,location}) => {
             setMessage('Password do not Match')
         }else{
             if(url==='student'){
-                user={name,email,password,mobileNumber,collegeID,adhaarNumber,guardianAdhaarNumber,address,city,state,zipCode}
+                user={name,email,password}
                 dispatch(signupStudent(user))
             }else if(url==='lender'){
-                user={name,email,password,mobileNumber,adhaarNumber,address,city,state,zipCode}
+                user={name,email,password}
                 dispatch(signupLender(user))
             } 
         }
+    }
+
+
+    const responseSuccessGoogle = async(response) => {
+        const {data}= await axios.post('/googlelogin',{tokenId:response.tokenId})
+        const {username,useremail,email_verified}=data
+        console.log(email_verified);
+        if(email_verified){
+            console.log('inside if else');
+            if(url==='student'){
+                user={name:username,email:useremail,email_verified}
+                console.log(user);
+                dispatch(signupStudent(user))
+            }else if(url==='lender'){
+                user={name:username,email:useremail,email_verified}
+                dispatch(signupLender(user))
+            }
+        }else{
+            setMessage('Sign UP Failed')
+        }
+    }
+
+    const responseErrorGoogle =(response)=>{
+        console.log(response);
+        setMessage('Sign Up Failed..Please try again')
     }
 
     return (
@@ -72,16 +91,14 @@ const SignupPage = ({history,location}) => {
                         <Form.Label>Name</Form.Label>
                         <Form.Control type='input' placeholder='Enter name' value={name} onChange={(e)=>setName(e.target.value)}  />
                     </Form.Group>
-                    <Form.Group as={Col}>
-                        <Form.Label>Mobile Number</Form.Label>
-                        <Form.Control type='integer' placeholder='Enter Mobile No.' value={mobileNumber} onChange={(e)=>setMobileNumber(e.target.value)}  />
-                    </Form.Group>
                 </Form.Row>
                 <Form.Row>
                     <Form.Group as={Col}>
                         <Form.Label>Email</Form.Label>
                         <Form.Control type='email' placeholder='Enter email' value={email} onChange={(e)=>setEmail(e.target.value)}  />
                     </Form.Group>
+                </Form.Row>
+                <Form.Row>
                     <Form.Group as={Col}>
                         <Form.Label>Password</Form.Label>
                         <Form.Control type='password' placeholder='Enter password' value={password} onChange={(e)=>setPassword(e.target.value)}  />
@@ -91,53 +108,23 @@ const SignupPage = ({history,location}) => {
                         <Form.Control type='password' placeholder='Enter Confirm Password' value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)}  />
                     </Form.Group>
                 </Form.Row>
-                <Form.Group>
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control type='input' placeholder='Enter Address' value={address} onChange={(e)=>setAddress(e.target.value)}  />
-                </Form.Group>
-                <Form.Row>
-                    <Form.Group as={Col} >
-                        <Form.Label>City</Form.Label>
-                        <Form.Control type='text' placeholder='Enter City' value={city} onChange={(e)=>setCity(e.target.value)} />
-                    </Form.Group>
+                <Row>
+                    <Col md={6}>
+                        <Button type='submit' variant='primary' style={{paddingRight:'10px'}}>Sign Up</Button>
+                    </Col>
+                    <Col md={6}>
+                        <GoogleLogin
+                        clientId={process.env.GOOGLE_CLIENT}
+                        buttonText="Sign Up with Google"
+                        onSuccess={responseSuccessGoogle}
+                        onFailure={responseErrorGoogle}
+                        cookiePolicy={'single_host_origin'}
+                        theme='dark'
+                        />
+                    </Col>
 
-                    <Form.Group as={Col} >
-                        <Form.Label>State</Form.Label>
-                        <Form.Control as="select"  value={state} onChange={(e)=>setState(e.target.value)} >
-                            <option value=''>Choose...</option>
-                            <option value='Maharashtra'>Maharashtra</option>
-                            <option value='Delhi'>Delhi</option>
-                            <option value='Karnataka'>Karnataka</option>
-                        </Form.Control>
-                    </Form.Group>
-
-                    <Form.Group as={Col} >
-                        <Form.Label>Zip</Form.Label>
-                        <Form.Control  type='integer' placeholder='ZipCode' value={zipCode} onChange={(e)=>setZipCode(e.target.value)} />
-                    </Form.Group>
-                </Form.Row>
-                {url==='student'?(<>
-                    <Form.Group>
-                        <Form.Label>College ID</Form.Label>
-                        <Form.Control type='input' placeholder='Enter College ID' value={collegeID} onChange={(e)=>setCollegeID(e.target.value)}  />
-                    </Form.Group>
-                <Form.Row>
-                    <Form.Group as={Col}>
-                        <Form.Label>Adhaar Number</Form.Label>
-                        <Form.Control type='text' placeholder='Enter student Adhaar No.' value={adhaarNumber} onChange={(e)=>setAdhaarNumber(e.target.value)}  />
-                    </Form.Group>
-                    <Form.Group as={Col}>
-                        <Form.Label>Guardian Adhaar Number</Form.Label>
-                        <Form.Control type='text' placeholder='Enter guardian Adhaar No.' value={guardianAdhaarNumber} onChange={(e)=>setGuardianAdhaarNumber(e.target.value)}  />
-                    </Form.Group>
-                </Form.Row>
-                </>
-                ):(<Form.Group>
-                    <Form.Label>Adhaar Number</Form.Label>
-                    <Form.Control type='text' placeholder='Enter Adhaar No.' value={adhaarNumber} onChange={(e)=>setAdhaarNumber(e.target.value)}  />
-                </Form.Group>)}
+                </Row>
                 
-                <Button type='submit' variant='primary'>Sign Up</Button>
                 <Row style={{paddingTop:'20px'}}>
                     <Col>Already a User ? {url==='student'?<Link to={'/studentlogin'}>Login</Link>:<Link to={'/lenderlogin'}>Login</Link>}</Col>
                 </Row>

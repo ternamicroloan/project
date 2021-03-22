@@ -10,7 +10,8 @@ export const createLoan =(loan)=>async(dispatch,getState)=>{
 
         const config={
             headers:{
-                'Content-Type':'application/json'
+                'Content-Type':'application/json',
+                Authorization:`Bearer ${studentInfo.token}`
             }
         }
 
@@ -28,15 +29,19 @@ export const createLoan =(loan)=>async(dispatch,getState)=>{
     }
 }
 
-export const getLoanByStudentId =(student_id)=>async(dispatch)=>{
+export const getLoanByStudentId =(student_id)=>async(dispatch,getState)=>{
     try{
         dispatch({
             type:'STUDENT_LOAN_DETAILS_REQUEST'
         })
 
+        const {studentLogin:{studentInfo}} = getState()
+
+
         const config={
             headers:{
-                'Content-Type':'application/json'
+                'Content-Type':'application/json',
+                Authorization:`Bearer ${studentInfo.token}`
             }
         }
 
@@ -80,15 +85,19 @@ export const getLoanById = (loan_id) =>async(dispatch)=>{
     }
 }
 
-export const grantLoan = (loan)=>async(dispatch)=>{
+export const grantLoan = (loan)=>async(dispatch,getState)=>{
     try{
         dispatch({
             type:'LOAN_GRANT_REQUEST'
         })
     
+        const {lenderLogin:{lenderInfo}}=getState()
+
         const config={
             headers:{
-                'Content-Type':'application/json'
+                'Content-Type':'application/json',
+                Authorization: `Bearer ${lenderInfo.token}`
+
             }
         }
     
@@ -107,15 +116,18 @@ export const grantLoan = (loan)=>async(dispatch)=>{
         }
 }
 
-export const getLoanByLenderId =(lender_id)=>async(dispatch)=>{
+export const getLoanByLenderId =(lender_id)=>async(dispatch,getState)=>{
     try{
         dispatch({
             type:'LENDER_LOAN_DETAILS_REQUEST'
         })
 
+        const {lenderLogin:{lenderInfo}}=getState()
+
         const config={
             headers:{
-                'Content-Type':'application/json'
+                'Content-Type':'application/json',
+                Authorization: `Bearer ${lenderInfo.token}`
             }
         }
 
@@ -133,15 +145,19 @@ export const getLoanByLenderId =(lender_id)=>async(dispatch)=>{
     }
 }
 
-export const updateInstallment =(loan_id,installment_id)=>async(dispatch)=>{
+export const updateInstallment =(loan_id,installment_id)=>async(dispatch,getState)=>{
     try{
         dispatch({
             type:'INSTALLMENT_UPDATE_REQUEST'
         })
 
+        const {studentLogin:{studentInfo}}=getState()
+
+
         const config={
             headers:{
-                'Content-Type':'application/json'
+                'Content-Type':'application/json',
+                Authorization:`Bearer ${studentInfo.token}`
             }
         }
 

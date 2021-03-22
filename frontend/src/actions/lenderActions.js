@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const loginLender =(email,password)=>async(dispatch)=>{
+export const loginLender =(email,password,email_verified)=>async(dispatch)=>{
     try{
         dispatch({
             type:'LENDER_LOGIN_REQUEST'
@@ -12,7 +12,7 @@ export const loginLender =(email,password)=>async(dispatch)=>{
             }
         }
 
-        const {data} = await axios.post('/lender/login',{email,password},config)
+        const {data} = await axios.post('/lender/login',{email,password,email_verified},config)
 
         dispatch({
             type:'LENDER_LOGIN_SUCCESS',
@@ -80,7 +80,8 @@ export const getLenderDetails = (id) =>async(dispatch,getState)=>{
 
         const config={
             headers:{
-                'Content-Type':'application/json'
+                'Content-Type':'application/json',
+                Authorization:`Bearer ${lenderInfo.token}`
             }
         }
 
@@ -105,13 +106,14 @@ export const updateLenderProfile =(lender) => async(dispatch,getState)=>{
             type:'LENDER_UPDATE_PROFILE_REQUEST'
         })
 
+        const {lenderLogin:{lenderInfo}}=getState()//required for token
+
         const config={
             headers:{
-                'Content-Type':'application/json'
+                'Content-Type':'application/json',
+                Authorization:`Bearer ${lenderInfo.token}`
             }
         }
-
-        const {lenderLogin:{lenderInfo}}=getState()//required for token
 
         const {data} = await axios.put(`/lender/${lenderInfo?lenderInfo._id:lender.id}`,lender,config)
 

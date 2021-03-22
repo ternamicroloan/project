@@ -8,6 +8,8 @@ import {loginLender} from '../actions/lenderActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { loginAdmin,getAllStudent,getAllLender } from '../actions/adminActions'
+import GoogleLogin from 'react-google-login'
+import axios from 'axios'
 
 const LoginPage = ({history,location}) => {
 
@@ -50,6 +52,23 @@ const LoginPage = ({history,location}) => {
         
     }
 
+    const responseSuccessGoogle = async(response) => {
+        const {data}= await axios.post('/googlelogin',{tokenId:response.tokenId})
+        const {useremail,email_verified}=data
+        const pass='abc'//dummy password which is required as per structuring in action creators
+        if(email_verified){
+            if(url==='/studentlogin'){
+                dispatch(loginStudent(useremail,pass,email_verified))
+            }else if(url==='/lenderlogin'){
+                dispatch(loginLender(useremail,pass,email_verified))
+            }
+        }
+    }
+
+    const responseErrorGoogle =(response)=>{
+        console.log(response);
+    }
+
 
 
     return (
@@ -67,7 +86,22 @@ const LoginPage = ({history,location}) => {
                         <Form.Label>Password</Form.Label>
                         <Form.Control type='password' placeholder='Enter password' value={password} onChange={(e)=>setPassword(e.target.value)} />
                     </Form.Group>
-                    <Button type='submit' variant='primary'>Login</Button>
+                    <Row>
+                    <Col md={6}>
+                        <Button type='submit' variant='primary' style={{paddingRight:'10px'}}>Login </Button>
+                    </Col>
+                    <Col md={6}>
+                        <GoogleLogin
+                        clientId={process.env.GOOGLE_CLIENT}
+                        buttonText="Login with google"
+                        onSuccess={responseSuccessGoogle}
+                        onFailure={responseErrorGoogle}
+                        cookiePolicy={'single_host_origin'}
+                        theme='dark'
+                        />
+                    </Col>
+
+                </Row>
                     <Row style={{paddingTop:'20px'}}>
                         <Col>Not a User? 
                             {url==='/studentlogin'?<Link to={'/signup/student'}>Register</Link>:<Link to={'/signup/lender'}>Register</Link>}

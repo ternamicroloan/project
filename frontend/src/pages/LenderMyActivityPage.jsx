@@ -88,15 +88,15 @@ const LenderMyActivityPage = ({history}) => {
                 </Accordion>
             </Container>
             <Container style={{marginTop:'2%'}}>
-                <Accordion defaultActiveKey="1">
+                <Accordion defaultActiveKey="2">
                     <Card>
                         <Card.Header>
-                            <Accordion.Toggle as={Card.Header} variant="link" eventKey="0">
+                            <Accordion.Toggle as={Card.Header} variant="link" eventKey="2">
                                 Finished Loans
                             </Accordion.Toggle>
                         </Card.Header>
                         {completedLoans.length===0?(
-                        <Accordion.Collapse eventKey="4">
+                        <Accordion.Collapse eventKey="2">
 
                                 <Card.Body>
                                     <Media>
@@ -107,7 +107,7 @@ const LenderMyActivityPage = ({history}) => {
 
                             ):(
                                 completedLoans.map(loan=>(
-                        <Accordion.Collapse eventKey="4">
+                        <Accordion.Collapse eventKey="2">
 
                                     <Card.Body >
                                         <Media>

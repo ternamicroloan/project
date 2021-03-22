@@ -1,6 +1,8 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
 import Student from '../models/studentModel.js'
+import generateToken from '../utils/generateToken.js'
+import {protectStudent} from '../middleware/authMiddleware.js'
 
 const router=express.Router()
 
@@ -10,11 +12,10 @@ const router=express.Router()
 //@access Public 
 
 const authStudent=asyncHandler(async(req,res)=>{
-    const {email,password}=req.body
-
+    const {email,password,email_verified}=req.body //email_verified will be present if user signs up using google
     const user = await Student.findOne({email_address:email})
 
-    if(user && user.password===password){
+    if((user && user.password===password)||email_verified){
         res.json({
             _id:user._id,
             name:user.name,
@@ -28,11 +29,12 @@ const authStudent=asyncHandler(async(req,res)=>{
             adhaar_number:user.adhaar_number,
             guardian_adhaar_number:user.guardian_adhaar_number,
             verified:user.verified,
-            image:user.profile_image
+            image:user.profile_image,
+            token:generateToken(user._id)
         })
     }else{
         res.status(401)
-        throw new Error('Invalid Email or passwrod')
+        throw new Error('Invalid Email or password')
     }
 })
 
@@ -41,29 +43,33 @@ const authStudent=asyncHandler(async(req,res)=>{
 //@access Public
 
 const signupStudent=asyncHandler(async(req,res)=>{
-    const {name,email,password,mobileNumber,collegeID,adhaarNumber,guardianAdhaarNumber,address,city,state,zipCode}=req.body
+    const {name,email,password}=req.body
+
     const userExists=await Student.findOne({email_address:email})
+
     if(userExists){
         res.status(400)
         throw new Error('User Already Exists')
     }
 
-    const new_user=await Student.create({name,email_address:email,password,college_id:collegeID,address,city,state,zipcode:zipCode,mobile_number:mobileNumber,adhaar_number:adhaarNumber,guardian_adhaar_number:guardianAdhaarNumber,verified:false,image:''})
+    let google_password=''
+    if(!password){
+        google_password=email+process.env.JWT_SECRET//randomly create password which required field when creating new user
+    }
 
-    
+    const new_user=await Student.create({name,email_address:email,password:password?password:google_password})
 
     if(new_user){
         res.status(201).json({
             _id:new_user._id,
             name:new_user.name,
             email:new_user.email_address,
-            college_id:new_user.college_id
+            token:generateToken(new_user._id)
         })
     }else{
         res.status(400)
         throw new Error('Invalid user Data')
     }
-
 })
 
 //@desc GET student by id
@@ -93,7 +99,7 @@ const updateStudentProfile=asyncHandler(async(req,res)=>{
         user.address=req.body.address || user.address
         user.city =req.body.city || user.city
         user.state=req.body.state || user.state
-        user.zipcode=req.body.zipCode || user.zipcode
+        user.zipcode=req.body.zipcode || user.zipcode
         user.mobile_number =req.body.mobile || user.mobile_number
         user.adhaar_number =req.body.adhaarNumber || user.adhaar_number
         user.guardian_adhaar_number =req.body.guardianAdhaarNumber || user.guardian_adhaar_number
@@ -112,7 +118,10 @@ const updateStudentProfile=asyncHandler(async(req,res)=>{
         //save updated user
         const updatedUser=await user.save()
         //return update user
-        res.json(updatedUser)
+        res.json({
+            updatedUser,
+            token:generateToken(updatedUser._id)
+        })
     }else{
         res.status(404)
         throw new Error('User Not Found')
@@ -122,5 +131,5 @@ const updateStudentProfile=asyncHandler(async(req,res)=>{
 
 router.post('/login',authStudent)
 router.post('/signup',signupStudent)
-router.route('/:id').get(getStudentById).put(updateStudentProfile)
+router.route('/:id').get(protectStudent,getStudentById).put(protectStudent,updateStudentProfile)
 export default router

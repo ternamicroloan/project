@@ -1,6 +1,9 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
 import Lender from '../models/lenderModel.js'
+import generateToken from '../utils/generateToken.js'
+import {protectLender} from '../middleware/authMiddleware.js'
+
 const router=express.Router()
 
 
@@ -9,10 +12,10 @@ const router=express.Router()
 //@route Post /lender/login
 //@access Public
 const authLender=asyncHandler(async(req,res)=>{
-    const {email,password}=req.body
+    const {email,password,email_verified}=req.body //email_verified will be present if user signs up using google
 
     const user = await Lender.findOne({email_address:email})
-    if(user && user.password===password){
+    if((user && user.password===password) || email_verified){
         res.json({
             _id:user._id,
             name:user.name,
@@ -24,7 +27,8 @@ const authLender=asyncHandler(async(req,res)=>{
             mobile_number:user.mobile_number,
             adhaar_number:user.adhaar_number,
             verified:user.verified,
-            image:user.profile_image
+            image:user.profile_image,
+            token:generateToken(user._id)
         })
     }else{
         res.status(401)
@@ -37,7 +41,7 @@ const authLender=asyncHandler(async(req,res)=>{
 //@access Public
 
 const signupLender=asyncHandler(async(req,res)=>{
-    const {name,email,password,mobileNumber,adhaarNumber,address,city,state,zipCode}=req.body
+    const {name,email,password}=req.body
 
     const userExists=await Lender.findOne({email_address:email})
     if(userExists){
@@ -45,13 +49,20 @@ const signupLender=asyncHandler(async(req,res)=>{
         throw new Error('User Already Exists')
     }
 
-    const new_user=await Lender.create({name,email_address:email,password,address,city,state,zipcode:zipCode,mobile_number:mobileNumber,adhaar_number:adhaarNumber,verified:false,image:''})
+
+    let google_password=''
+    if(!password){
+        google_password=email+process.env.JWT_SECRET//randomly create password which required field when creating new user
+    }
+
+    const new_user=await Lender.create({name,email_address:email,password:password?password:google_password})
     
     if(new_user){
         res.status(201).json({
             _id:new_user._id,
             name:new_user.name,
             email:new_user.email_address,
+            token:generateToken(new_user._id)
         })
     }else{
         res.status(400)
@@ -100,7 +111,10 @@ const updateLenderProfile=asyncHandler(async(req,res)=>{
         //save updated user
         const updatedUser=await user.save()
         //return update user
-        res.json(updatedUser)
+        res.json({
+            updatedUser,
+            token:generateToken(updatedUser._id)
+        })
     }else{
         res.status(404)
         throw new Error('User Not Found')
@@ -111,6 +125,6 @@ const updateLenderProfile=asyncHandler(async(req,res)=>{
 
 router.route('/login').post(authLender)
 router.route('/signup').post(signupLender)
-router.route('/:id').get(getLenderById).put(updateLenderProfile)
+router.route('/:id').get(protectLender,getLenderById).put(protectLender,updateLenderProfile)
 
 export default router

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const loginStudent =(email,password)=>async(dispatch)=>{
+export const loginStudent =(email,password,email_verified)=>async(dispatch)=>{
     try{
         dispatch({
             type:'STUDENT_LOGIN_REQUEST'
@@ -12,7 +12,7 @@ export const loginStudent =(email,password)=>async(dispatch)=>{
             }
         }
 
-        const {data} = await axios.post('/student/login',{email,password},config)
+        const {data} = await axios.post('/student/login',{email,password,email_verified},config)
 
         dispatch({
             type:'STUDENT_LOGIN_SUCCESS',
@@ -81,7 +81,8 @@ export const getStudentDetails = (id) =>async(dispatch,getState)=>{
 
         const config={
             headers:{
-                'Content-Type':'application/json'
+                'Content-Type':'application/json',
+                Authorization:`Bearer ${studentInfo.token}`
             }
         }
 
@@ -107,13 +108,16 @@ export const updateStudentProfile =(student) => async(dispatch,getState)=>{
             type:'STUDENT_UPDATE_PROFILE_REQUEST'
         })
 
+
+        const {studentLogin:{studentInfo}}=getState()//required for token
+        
         const config={
             headers:{
-                'Content-Type':'application/json'
+                'Content-Type':'application/json',
+                Authorization:`Bearer ${studentInfo.token}`
             }
         }
 
-        const {studentLogin:{studentInfo}}=getState()//required for token
 
         //If logged in as admin the id will be present in student object provided as props to function else it will be present in studentInfo
         const {data} = await axios.put(`/student/${studentInfo?studentInfo._id:student.id}`,student,config)
