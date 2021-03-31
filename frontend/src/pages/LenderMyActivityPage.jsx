@@ -5,6 +5,7 @@ import {useDispatch,useSelector} from 'react-redux'
 import { getLoanByLenderId, getLoanById } from '../actions/loanActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import img1 from '../images/50_4x.png'
 
 const LenderMyActivityPage = ({history}) => {
     const dispatch=useDispatch()
@@ -47,8 +48,9 @@ const LenderMyActivityPage = ({history}) => {
         <>
             {loading && <Loader/> }
             {error && <Message variant='danger'>{error}</Message>}
-            <Container style={{marginTop:'2%'}}>
-                <Accordion defaultActiveKey="1">
+        <div style={{backgroundImage:`url(${img1})`,backgroundSize:'cover',backgroundPosition:'center',height:'70vh'}}>
+            <Container style={{marginTop:'2%'}} >
+                <Accordion defaultActiveKey="1" >
                     <Card>
                         <Card.Header>
                             <Accordion.Toggle as={Card.Header} variant="link" eventKey="1">
@@ -128,6 +130,26 @@ const LenderMyActivityPage = ({history}) => {
                     </Card>
                 </Accordion>
             </Container>
+            </div>
+            {/**
+             * 
+             <Container style={{paddingTop:'2%'}}>
+                <Row>
+                    <Col xs={12} md={6}>
+                        <ResponsiveEmbed aspectRatio="16by9">
+                            <Image src={img1} />
+                        </ResponsiveEmbed>
+                    </Col>
+                    
+                    <Col xs={12} md={6}>
+                        <ResponsiveEmbed aspectRatio="16by9">
+                            <Image src={img2} />
+                        </ResponsiveEmbed>
+                    </Col>
+                </Row>
+            </Container> 
+             */}
+            
         </>
     )
 }

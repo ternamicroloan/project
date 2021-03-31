@@ -30,7 +30,7 @@ const HomePage = () => {
             <Jumbotron  style={{padding:"3%",backgroundColor:'moonlight'}}>
                 <Container>
                     <Row>
-                        <Col style={{border:'20px'}}>
+                        <Col xs={12} md={4} style={{border:'20px'}}>
                             <Card className="text-center mb-2" style={{ width: '18rem',backgroundColor:'#011338'
                             ,color:'white',boxShadow:'5px 5px 10px grey' }}>
                                 <Card.Body>
@@ -43,7 +43,7 @@ const HomePage = () => {
                                 </Card.Body>
                             </Card>
                         </Col>
-                        <Col style={{border:'20px'}}>
+                        <Col xs={12} md={4} style={{border:'20px'}}>
                             <Card className="text-center mb-2" style={{ width: '18rem',backgroundColor:'#011338'
                             ,color:'white',boxShadow:'5px 5px 10px grey' }}>
                                 <Card.Body>
@@ -56,7 +56,7 @@ const HomePage = () => {
                                 </Card.Body>
                             </Card>
                         </Col>
-                        <Col style={{border:'20px'}}>
+                        <Col xs={12} md={4} style={{border:'20px'}}>
                             <Card className="text-center mb-2" style={{ width: '18rem',backgroundColor:'#011338'
                             ,color:'white',boxShadow:'5px 5px 10px grey' }}>
                                 <Card.Body>
@@ -80,7 +80,9 @@ const HomePage = () => {
                         </Row>
                     </Col>
                     <Col md={{span:6,order:'last'}} xs={{span:12,order:'first'}}>
-                        <Image src={LoanImage} style={{height:'100%'}}fluid/>
+                        <ResponsiveEmbed aspectRatio='16by9'>
+                            <Image src={LoanImage} style={{height:'100%'}}fluid/>
+                        </ResponsiveEmbed>
                     </Col>
                 </Row>
             </Container>
@@ -127,9 +129,9 @@ const HomePage = () => {
                     </Row>
                     <Row>
                         <Col>
-                            <center>
+                            <ResponsiveEmbed aspectRatio='16by9'>
                                 <Image style={{mixBlendMode:'darken',margin:'3% 0'}} src={network}/>
-                            </center>  
+                            </ResponsiveEmbed>  
                         </Col>
                     </Row>
                     <Row>

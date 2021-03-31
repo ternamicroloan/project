@@ -115,7 +115,7 @@ const SignupPage = ({history,location}) => {
                     <Col md={6}>
                         <GoogleLogin
                         clientId={process.env.GOOGLE_CLIENT}
-                        buttonText="Sign Up with Google"
+                        buttonText="Sign Up"
                         onSuccess={responseSuccessGoogle}
                         onFailure={responseErrorGoogle}
                         cookiePolicy={'single_host_origin'}

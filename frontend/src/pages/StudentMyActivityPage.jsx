@@ -4,6 +4,7 @@ import {useDispatch,useSelector} from 'react-redux'
 import { getLoanByStudentId } from '../actions/loanActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import img1 from '../images/50_4x.png'
 
 const StudentMyActivity = ({history}) => {
 
@@ -50,6 +51,7 @@ const StudentMyActivity = ({history}) => {
         <>
             {loading && <Loader/> }
             {error && <Message variant='danger'>{error}</Message>}
+            <div style={{backgroundImage:`url(${img1})`,backgroundSize:'cover',backgroundPosition:'center',height:'70vh'}}>
             <Container style={{marginTop:'2%'}}>
                 <Accordion defaultActiveKey="1">
                     <Card>
@@ -217,6 +219,7 @@ const StudentMyActivity = ({history}) => {
 
                 </Accordion>
             </Container>
+            </div>
         </>
     )
 }

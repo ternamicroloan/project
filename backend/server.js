@@ -1,10 +1,12 @@
 import express from 'express'
+import path from 'path'
 import studentRoutes from './routes/studentRoutes.js'
 import lenderRoutes from './routes/lenderRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import loanRoutes from './routes/loanRoutes.js'
 import razorpayRoutes from './routes/razorpayRoutes.js'
 import googleRoutes from './routes/googleRoutes.js'
+import uploadRoutes from './routes/uploadRoutes.js'
 import connectDB from './config/db.js'
 import dotenv from 'dotenv'
 import cors from 'cors'
@@ -25,6 +27,10 @@ app.use('/admin',adminRoutes)
 app.use('/loans',loanRoutes)
 app.use('/payment',razorpayRoutes)
 app.use('/googlelogin',googleRoutes)
+app.use('/upload',uploadRoutes)
+
+const __dirname = path.resolve()
+app.use('/uploads',express.static(path.join(__dirname,'/uploads')))
 
 app.get('/',(req,res)=>{
     res.send('API is running...')

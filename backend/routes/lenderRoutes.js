@@ -15,7 +15,7 @@ const authLender=asyncHandler(async(req,res)=>{
     const {email,password,email_verified}=req.body //email_verified will be present if user signs up using google
 
     const user = await Lender.findOne({email_address:email})
-    if((user && user.password===password) || email_verified){
+    if((user && user.matchPassword(password)) || email_verified){
         res.json({
             _id:user._id,
             name:user.name,

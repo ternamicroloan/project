@@ -1,15 +1,18 @@
 import React ,{useEffect,useState} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
-import {Form,Button,Row,Col} from 'react-bootstrap'
+import {Form,Button,Row,Col, Container, ResponsiveEmbed, Image} from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
 import {Link} from 'react-router-dom'
 import { loginStudent} from '../actions/studentActions'
 import {loginLender} from '../actions/lenderActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { loginAdmin,getAllStudent,getAllLender } from '../actions/adminActions'
+import { loginAdmin} from '../actions/adminActions'
 import GoogleLogin from 'react-google-login'
 import axios from 'axios'
+import studimg from '../images/studlogin.jpg'
+import lenderimg from '../images/lenderlogin.jpg'
+
 
 const LoginPage = ({history,location}) => {
 
@@ -17,7 +20,6 @@ const LoginPage = ({history,location}) => {
     const [password,setPassword]=useState('')
 
     const dispatch = useDispatch()
-
     const studentLogin=useSelector(state=>state.studentLogin)
     const{loading:studentLoading,error:studentError,studentInfo}=studentLogin
 
@@ -28,8 +30,7 @@ const LoginPage = ({history,location}) => {
     const {loading:adminLoading,error:adminError,adminInfo}=adminLogin
 
     const url=window.location.pathname
-
-    useEffect(()=>{
+    useEffect(()=>{     
         if(studentInfo){
             history.push('/student')
         }else if(lenderInfo){
@@ -69,11 +70,19 @@ const LoginPage = ({history,location}) => {
         console.log(response);
     }
 
-
+    const clientID=process.env.REACT_APP_GOOGLE_CLIENT
 
     return (
         <>
-            <FormContainer>
+            <Container>
+                <Row>
+                    <Col xs={12} md={4} style={{marginTop:'10%'}}>
+                        <ResponsiveEmbed aspectRatio='16by9' >
+                            <Image  src={url==='/studentlogin'?studimg:lenderimg} style={{borderRadius:'10%'}}/>
+                        </ResponsiveEmbed>
+                    </Col>
+                    <Col xs={12} md={8}>
+                    <FormContainer>
                 <h1>Login</h1>
                 {(studentError ||  lenderError || adminError) && <Message variant='danger'>Invalid Email or Password</Message>}
                 {(studentLoading || lenderLoading || adminLoading) && <Loader/>}
@@ -87,13 +96,13 @@ const LoginPage = ({history,location}) => {
                         <Form.Control type='password' placeholder='Enter password' value={password} onChange={(e)=>setPassword(e.target.value)} />
                     </Form.Group>
                     <Row>
-                    <Col md={6}>
-                        <Button type='submit' variant='primary' style={{paddingRight:'10px'}}>Login </Button>
+                    <Col xs={6} md={6}>
+                        <Button type='submit' variant='primary' style={{paddingRight:'10px'}}>Login</Button>
                     </Col>
-                    <Col md={6}>
+                    <Col xs={6} md={6}>
                         <GoogleLogin
-                        clientId={process.env.GOOGLE_CLIENT}
-                        buttonText="Login with google"
+                        clientId={clientID}
+                        buttonText="Login"
                         onSuccess={responseSuccessGoogle}
                         onFailure={responseErrorGoogle}
                         cookiePolicy={'single_host_origin'}
@@ -109,7 +118,11 @@ const LoginPage = ({history,location}) => {
                     </Row>
                 </Form>
             </FormContainer>
-        </>
+
+                    </Col>
+                </Row>
+            </Container>
+                    </>
     )
     }
 

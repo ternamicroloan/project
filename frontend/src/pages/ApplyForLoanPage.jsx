@@ -1,13 +1,14 @@
 import React, { useEffect,useState } from 'react'
 import {useSelector,useDispatch}from 'react-redux'
 import Stepper from 'react-stepper-horizontal'
-import {Form,Row,Col,Button, Container,Card,ListGroup,Image} from 'react-bootstrap'
+import {Form,Row,Col,Button, Container,Card,ListGroup,Image, Jumbotron} from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
 import ImageUploader from 'react-images-upload'
 import { getStudentDetails } from '../actions/studentActions'
 import {createLoan} from '../actions/loanActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import image from '../images/applyforloan.jpeg'
 const ApplyForLoanPage = ({history}) => {
 
     const [step,setStep]=useState(0)
@@ -89,6 +90,8 @@ const ApplyForLoanPage = ({history}) => {
 
     return (
         <div>
+            <Jumbotron style={{backgroundImage:`url(${image})` ,backgroundSize:'cover',backgroundPosition:'center',height:'100vh'
+            ,backgroundBlendMode:'overlay'}} fluid>
             {studentDetailsLoading && <Loader/>}
             {studentDetailsError && <Message variant='danger'>{studentDetailsError}</Message>}
             {student && student.verified===false ? (
@@ -98,6 +101,7 @@ const ApplyForLoanPage = ({history}) => {
                 <Button  href={`/student/profile`}>Profile Page</Button>
                 </div>
             ):(
+                
                 <div>
                 <Stepper steps={[{title:'Loan Details'},{title:'College Details'},{title:'Upload Documents'},{title:'Loan Summary'}]} activeStep={step} />
                 {step===0 &&(
@@ -293,7 +297,7 @@ const ApplyForLoanPage = ({history}) => {
             )}
             </div>
             )}
-            
+            </Jumbotron>
         </div>
     )
 }

@@ -1,25 +1,59 @@
-import React from 'react'
-import { Container, Card , CardGroup , Button , Jumbotron , Row , Col , ResponsiveEmbed , Image } from 'react-bootstrap'
-import { useSelector } from 'react-redux'
-import userImage from '../images/person1.jpg'
 
-const StudentPage = () => {
+import React,{useEffect} from 'react'
+import { Container, Card , CardGroup , Button , Jumbotron , Row , Col , ResponsiveEmbed , Image } from 'react-bootstrap'
+import { useSelector,useDispatch } from 'react-redux'
+import userImage from '../images/student1.jpeg'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
+import { getLoanByStudentId } from '../actions/loanActions'
+
+const StudentPage = ({history}) => {
+
+  const dispatch=useDispatch()
+
   const studentLogin = useSelector(state=>state.studentLogin)
   const {studentInfo}=studentLogin
 
+  
+  const studentLoanDetails=useSelector(state=>state.studentLoanDetails)
+  const {loading,error,loans}=studentLoanDetails
+
+  const ongoingLoans=[]
+  const completedLoans=[]
+
+  loans && loans.forEach(loan=>{
+    if(loan.on_going){
+        ongoingLoans.push(loan)
+    }
+    if(loan.completed){
+        completedLoans.push(loan)
+    }
+})
+
+useEffect(()=>{
+  if(studentInfo){
+      dispatch(getLoanByStudentId(studentInfo._id))
+  }else{
+      history.push('/studentlogin')
+  }
+},[dispatch,history,studentInfo])
+
+
     return (
         <>
+        {loading && <Loader/>}
+        {error && <Message>{error}</Message>}
           <Jumbotron>
             <Container>
               <Row>
-                <Col>
+                <Col xs={12} md={6}>
                   <h3>Hi, {studentInfo.name}</h3>
                   <p>
                     Investment in Knowledge pays the best interest.
                   </p>
                 </Col>
-                <Col>
-                  <ResponsiveEmbed aspectRatio="16by9">
+                <Col xs={12} md={6}>
+                  <ResponsiveEmbed aspectRatio="16by9" style={{boxShadow:'8px 8px 16px grey'}}>
                     <Image src={userImage} />
                   </ResponsiveEmbed>
                 </Col>
@@ -27,46 +61,37 @@ const StudentPage = () => {
             </Container>
           </Jumbotron>
           <Container fluid>
+            <h1>On Going Loans</h1>
             <CardGroup>
-              <Card style={{ width: '18rem',margin:'2%' }}>
+              {ongoingLoans.map(loan=>(
+                <Card style={{ width: '18rem',margin:'2%' }}>
                 <Card.Body>
-                  <Card.Title>Loan 1</Card.Title>
-                  <Card.Subtitle className="mb-6 text-muted">Description</Card.Subtitle>
+                  <Card.Title>{loan.heading}</Card.Title>
+                  <Card.Text>{loan.description}</Card.Text>
                   <Card.Text>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex modi minima natus harum vero, possimus laudantium porro exercitationem quasi ad aliquam corrupti deserunt delectus earum iusto itaque facere necessitatibus quibusdam.
+                    Installments Remaining: {loan.installments.reduce((total,inst)=>(
+                      inst.is_paid?total:total=total+1
+                    ),0)}
                   </Card.Text>
-                  <Card.Text>
-                    Installments Remaining: num
-                  </Card.Text>
-                  <Button variant="outline-primary" size="sm" href="#">View Details</Button>
+                  <Button variant="outline-primary" size="sm" href={`/loans/${loan._id}`}>View Details</Button>
                 </Card.Body>
               </Card>
-              <Card style={{ width: '18rem' ,margin:'2%'}}>
+              ))}
+            </CardGroup>
+            <h1>Completed Loans</h1>
+            <CardGroup>
+              {completedLoans.map(loan=>(
+                <Card style={{ width: '18rem',margin:'2%' }}>
                 <Card.Body>
-                  <Card.Title>Loan 2</Card.Title>
-                  <Card.Subtitle className="mb-6 text-muted">Description</Card.Subtitle>
+                  <Card.Title>{loan.heading}</Card.Title>
+                  <Card.Text>{loan.description}</Card.Text>
                   <Card.Text>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex modi minima natus harum vero, possimus laudantium porro exercitationem quasi ad aliquam corrupti deserunt delectus earum iusto itaque facere necessitatibus quibusdam.
+                    Completed On: {new Date(loan.end_date).toLocaleDateString("en-IN")}
                   </Card.Text>
-                  <Card.Text>
-                    Installments Remaining: num
-                  </Card.Text>
-                  <Button variant="outline-primary" size="sm" href="#">View Details</Button>
+                  <Button variant="outline-primary" size="sm" href={`/loans/${loan._id}`}>View Details</Button>
                 </Card.Body>
               </Card>
-              <Card style={{ width: '18rem' ,margin:'2%'}}>
-                <Card.Body>
-                  <Card.Title>Loan 3</Card.Title>
-                  <Card.Subtitle className="mb-6 text-muted">Description</Card.Subtitle>
-                  <Card.Text>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex modi minima natus harum vero, possimus laudantium porro exercitationem quasi ad aliquam corrupti deserunt delectus earum iusto itaque facere necessitatibus quibusdam.
-                  </Card.Text>
-                  <Card.Text>
-                    Installments Remaining: num
-                  </Card.Text>
-                  <Button variant="outline-primary" size="sm" href="#">View Details</Button>
-                </Card.Body>
-              </Card>
+              ))}
             </CardGroup>
           </Container>
         </>

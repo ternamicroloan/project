@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import bcrypt from 'bcryptjs'
 
 const studentSchema = mongoose.Schema({
     name:{
@@ -32,8 +33,14 @@ const studentSchema = mongoose.Schema({
     adhaar_number:{
         type:Number
     },
+    adhaar_image:{
+        type:String
+    },
     guardian_adhaar_number:{
         type:Number
+    },
+    guardian_adhaar_image:{
+        type:String
     },
     verified:{
         type:Boolean,
@@ -62,6 +69,19 @@ const studentSchema = mongoose.Schema({
         type:String
     }
 },{timestamps:true})
+
+studentSchema.methods.matchPassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password)
+  }
+  
+  studentSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) {//this.isModified checks if the password is modified during profile update
+      next()
+    }
+  
+    const salt = await bcrypt.genSalt(10) 
+    this.password = await bcrypt.hash(this.password, salt)
+  })
 
 const Student=mongoose.model('Student',studentSchema)
 

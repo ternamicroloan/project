@@ -171,7 +171,7 @@ router.route('/').post(protectStudent,createNewLoan)
 router.route('/:id').get(getLoanById)
 router.route('/:id/granted').put(protectLender,updateLoanToGranted)
 router.route('/:id/completed').put(updateLoanToCompleted)
-router.route('/:id/installments/:id1').put(protectStudent,updateInstallmentToPaid)
+router.route('/:id/installments/:id1').put(updateInstallmentToPaid)
 router.route('/student/:id').get(protectStudent,getLoansByStudentId)
 router.route('/lender/:id').get(protectLender,getLoansByLenderId)
 

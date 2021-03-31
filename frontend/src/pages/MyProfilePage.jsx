@@ -1,13 +1,15 @@
-import React,{useEffect,useState,useCallback} from 'react'
+import React,{useEffect,useState} from 'react'
 import {useDispatch,useSelector }from 'react-redux'
-import {Accordion,Card,Row,Col,Container,Image,Button, ResponsiveEmbed, CardDeck,Badge,Form,Tabs,Tab,ProgressBar} from 'react-bootstrap'
-import CardContainer from '../components/CardContainer'
+import {Accordion,Card,Row,Col,Container,Image,Button, ResponsiveEmbed,Badge,Form,Tabs,Tab,ProgressBar} from 'react-bootstrap'
 import userImage from '../images/person1.jpg' 
 import {getStudentDetails, updateStudentProfile} from '../actions/studentActions'
 import {getLenderDetails,updateLenderProfile} from '../actions/lenderActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import FormContainer from '../components/FormContainer'
+import ImageUploader from 'react-images-upload'
+import axios from 'axios'
+
 const MyProfilePage = ({history}) => {
 
     const dispatch=useDispatch()
@@ -29,6 +31,9 @@ const MyProfilePage = ({history}) => {
     const [year,setYear]=useState('')
     const [semester,setSemester]=useState('')
     const [aboutMe,setAboutMe]=useState('')
+    const [adhaarPicture,setAdhaarPicture]=useState()
+    const [guardianAdhaarPicture,setGuardianAdhaarPicture]=useState()
+    
 
     const [message,setMessage]=useState('')
     const [edit,setEdit]=useState(false)
@@ -57,6 +62,46 @@ const MyProfilePage = ({history}) => {
 
     const url =window.location.pathname.split('/')[1]
 
+    
+    const onDropStudent =async (picture) => {
+        //we get picture as an array which we convert into an object to pass into formData
+        const file = picture[0]
+        const formData =new FormData()
+        formData.append('image',file)
+        //console.log(...formData);
+        try{
+            const config={
+                headers:{
+                    'Content-Type':'multipart/form-data',
+                }
+            }
+            const {data}=await axios.post('/upload',formData,config)
+            console.log(data);
+            setAdhaarPicture(data)
+        }catch(error){
+            console.error(error)
+        }
+        
+      };
+
+      const onDropGuardian = async (picture) => {
+        const file=picture[0]
+        const formData =new FormData()
+        formData.append('image',file)
+        try{
+            const config={
+                headers:{
+                    'Content-Type':'multipart/form-data'
+                }
+            }
+            const {data}=await axios.post('/upload',formData,config)
+            console.log(data);
+            setGuardianAdhaarPicture(data)
+        }catch(error){
+            console.error(error)
+        }
+    };
+ 
 
 
     
@@ -86,7 +131,7 @@ const MyProfilePage = ({history}) => {
                     setYear(student.year)
                     setSemester(student.semester)
                     
-                    const count=Math.floor(((((Object.keys(student).length)-7)/15)*100))
+                    const count=Math.floor(((((Object.keys(student).length)-7)/17)*100))
                     setProgress(count)
                 }
             }
@@ -106,7 +151,7 @@ const MyProfilePage = ({history}) => {
                     setZipcode(lender.zipcode)
                     setAdhaar(lender.adhaar_number)
                     setAboutMe(lender.about_me)
-                    const count=Math.floor(((Object.keys(student).length-7)/9)*100)
+                    const count=Math.floor(((Object.keys(lender).length-6)/11)*100)
                     setProgress(count)
                 }
             }
@@ -167,11 +212,27 @@ const MyProfilePage = ({history}) => {
         }
     }
 
+    const adhaarUploadHandler=async(e)=>{
+        if(url==='student'){
+            await dispatch(updateStudentProfile({adhaarPicture,guardianAdhaarPicture}))
+            //console.log(adhaarPicture,guardianAdhaarPicture);
+            if(updateStudentSuccess){
+                setMessage('Profile Update Successful')
+            }
+        }else if(url==='lender'){
+            await dispatch(updateLenderProfile({adhaarPicture}))
+           //console.log(adhaarPicture);
+
+            if(updateLenderSuccess){
+                setMessage('Profile Update Successful')
+            }
+    }
+}
     return (
         <Container style={{paddingTop:'50px'}} fluid>
             {(studentDetailsLoading || lenderDetailsLoading) && <Loader />}
             {(studentDetailsError || lenderDetailsError) && <Message variant='danger'>{studentDetailsError?studentDetailsError:lenderDetailsError}</Message>}
-            
+            {(updateStudentSuccess|| updateLenderSuccess) && <Message variant='success'>{message}</Message>}
             <Row>
                 <Col xs={12} md={{span:3 , offset:1}} lg={{span:2,offset:1}} >
                     <Row>
@@ -256,21 +317,6 @@ const MyProfilePage = ({history}) => {
                         }
                         
                         <Card>
-                            <Accordion.Toggle as={Card.Header} eventKey="2">
-                                Activity
-                            </Accordion.Toggle>
-                            <Accordion.Collapse eventKey="2">
-                                <Card.Body>
-                                    <CardDeck>
-                                    <CardContainer heading='Loan 1' amount='Rs.10000' desc=' loan for M-3' link='/student/myactivity'   />
-                                    <CardContainer heading='Loan 2' amount='Rs.10000' desc=' loan for M-3' link='/student/myactivity'   />
-                                    <CardContainer heading='Loan 3' amount='Rs.10000' desc=' loan for M-3' link='/student/myactivity'   />
-                                    <CardContainer heading='Loan 4' amount='Rs.10000' desc=' loan for M-3' link='/student/myactivity'   />
-                                    </CardDeck>
-                                </Card.Body>
-                            </Accordion.Collapse>
-                        </Card>
-                        <Card>
                             <Accordion.Toggle as={Card.Header} eventKey="3">
                                 About Me
                             </Accordion.Toggle>
@@ -283,7 +329,8 @@ const MyProfilePage = ({history}) => {
                             </Accordion.Collapse>
                         </Card>
                     </Accordion>
-                    {changePassword && (<div>
+                    {changePassword && (
+                    <div>
                         <FormContainer>
                             <h1>Change Password</h1>
                             {(updateStudentLoading || updateLenderLoading) && <Loader/>}
@@ -302,7 +349,8 @@ const MyProfilePage = ({history}) => {
                                 <Button type='submit' variant='primary'>Change Password</Button>
                             </Form>
                         </FormContainer>
-                                </div>)}
+                    </div>
+                    )}
 
                     {edit && (
                         <div style={{paddingTop:'20px'}}>
@@ -366,7 +414,7 @@ const MyProfilePage = ({history}) => {
                                                 <Form.Label>Guardian Adhaar Number</Form.Label>
                                                 <Form.Control type='text' placeholder='Enter guardian Adhaar No.' value={guardianAdhaar} onChange={(e)=>setGuardianAdhaar(e.target.value)}  />
                                             </Form.Group>
-                                        )}
+                                           )}
                                         
                                     </Form.Row>
                                     <Button type='submit' variant='primary'>Update</Button>
@@ -418,6 +466,26 @@ const MyProfilePage = ({history}) => {
                                         <Form.Group as={Col}>
                                             <Form.Label>ABOUT ME</Form.Label>
                                             <Form.Control as='textarea' row={3}  value={aboutMe} onChange={(e)=>setAboutMe(e.target.value)}  />
+                                        </Form.Group>
+                                    </Form.Row>
+                                    <Button type='submit' variant='primary'>Update</Button>
+                                </Form>
+                                </FormContainer>
+                        </Tab>
+
+                        <Tab eventKey="Adhaar Upload" title="Adhaar Upload" >
+                        <FormContainer>
+                            <Form onSubmit={adhaarUploadHandler}>
+                                    <Form.Row>
+                                        <Form.Group as={Col}>
+                                            <Form.Label>Student Adhaar</Form.Label>
+                                            <ImageUploader   withIcon={true} buttonText='Choose image' withPreview={true} withLabel={true} label='Student Adhaar Card' imgExtension={['.jpg','.jpeg','.png']} onChange={onDropStudent}/>
+                                        </Form.Group>
+                                    </Form.Row>
+                                    <Form.Row>
+                                        <Form.Group as={Col}>
+                                            <Form.Label>Guardian Adhaar</Form.Label>
+                                            <ImageUploader  withIcon={true} buttonText='Choose image' withPreview={true} withLabel={true} label='Guardian Adhaar Card' imgExtension={['.jpg','.jpeg','.png']} onChange={onDropGuardian} />
                                         </Form.Group>
                                     </Form.Row>
                                     <Button type='submit' variant='primary'>Update</Button>

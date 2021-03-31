@@ -1,22 +1,28 @@
-import React,{useEffect, useState} from 'react'
+import React,{useEffect} from 'react'
 import { Container,  ButtonGroup  , Jumbotron , Media ,Button} from 'react-bootstrap'
 import { useSelector,useDispatch } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import {getAllLoan} from '../actions/adminActions'
-import { getLoanById, grantLoan } from '../actions/loanActions'
+import { grantLoan } from '../actions/loanActions'
 
 const GrantLoanPage = ({history}) => {
 
     const dispatch=useDispatch()
-
-    const [message,setMessage]=useState(true)
 
     const loanList=useSelector(state=>state.loanList)
     const {loans,error,loading}=loanList
 
     const lenderLogin =useSelector(state=>state.lenderLogin)
     const {lenderInfo}=lenderLogin
+
+
+    const available_loans =[] 
+    loans && loans.forEach(loan=>{
+        if(loan.verified===true && loan.granted!==true){
+            available_loans.push(loan)
+        }
+    })
 
     useEffect(()=>{
         if(!lenderInfo){
@@ -49,9 +55,10 @@ const GrantLoanPage = ({history}) => {
         <Container >
             {loading && <Loader />}
             {error && <Message variant='danger'>{error}</Message>}
+            {loans && available_loans.length===0?<Message variant='info'>No loans available to grant right now .. Please come back later!!!</Message>:''}
             {loans && (
                 <>
-                {loans.filter(loan=>loan.verified===true && loan.granted!==true).map(loan=>(
+                {available_loans.map(loan=>(
                     
                             <Jumbotron className='mt-3' key={loan._id}>
                                 <Media>

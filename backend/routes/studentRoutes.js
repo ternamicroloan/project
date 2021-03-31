@@ -15,7 +15,7 @@ const authStudent=asyncHandler(async(req,res)=>{
     const {email,password,email_verified}=req.body //email_verified will be present if user signs up using google
     const user = await Student.findOne({email_address:email})
 
-    if((user && user.password===password)||email_verified){
+    if((user && user.matchPassword(password))||email_verified){
         res.json({
             _id:user._id,
             name:user.name,
@@ -102,7 +102,9 @@ const updateStudentProfile=asyncHandler(async(req,res)=>{
         user.zipcode=req.body.zipcode || user.zipcode
         user.mobile_number =req.body.mobile || user.mobile_number
         user.adhaar_number =req.body.adhaarNumber || user.adhaar_number
+        user.adhaar_image= req.body.adhaarPicture || user.adhaar_image
         user.guardian_adhaar_number =req.body.guardianAdhaarNumber || user.guardian_adhaar_number
+        user.guardian_adhaar_image =req.body.guardianAdhaarPicture || user.guardian_adhaar_image
         user.college_id =req.body.collegeId || user.college_id
         user.college_address =req.body.collegeAddress || user.college_address
         user.college_name = req.body.collegeName || user.college_name

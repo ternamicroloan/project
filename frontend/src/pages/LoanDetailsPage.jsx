@@ -216,9 +216,9 @@ const LoanDetailsPage = ({history}) => {
                                                         </span>
                                                         <p><strong>isPaid: </strong> {installment.is_paid?'Paid':'Not Paid'}</p>
                                                         <p><strong>Payment Method: </strong> {installment.is_paid ? installment.payment_details.method:''}</p>
-                                                        <p><strong>Paid At: </strong> {installment.is_paid?installment.paid_at:''}</p>
-                                                        {installment.is_paid ? <p><strong>Transaction ID: </strong>{installment.payment_details.order_id}</p>:
-                                                        <Button onClick={()=>displayRazorpay(installment.amount,installment._id,loan._id)}>Pay Now</Button>}
+                                                        <p><strong>Paid At: </strong> {installment.is_paid?new Date(installment.paid_at).toLocaleDateString("en-IN"):''}</p>
+                                                        {studentInfo && (installment.is_paid ? <p><strong>Transaction ID: </strong>{installment.payment_details.order_id}</p>:
+                                                        <Button onClick={()=>displayRazorpay(installment.amount,installment._id,loan._id)}>Pay Now</Button>)}
                                                     </ListGroupItem>
                                                 ))
                                             )
@@ -332,7 +332,7 @@ const LoanDetailsPage = ({history}) => {
                                                         </span>
                                                         <p><strong>isPaid: </strong> {installment.is_paid?'Paid':'Not Paid'}</p>
                                                         <p><strong>Payment Method: </strong> {installment.is_paid?installment.payment_method:''}</p>
-                                                        <p><strong>Paid At: </strong> {installment.is_paid?installment.paid_at:''}</p>
+                                                        <p><strong>Paid At: </strong> {installment.is_paid?new Date(installment.paid_at).toLocaleDateString("en-IN"):''}</p>
                                                     </ListGroupItem>
                                                 ))
                                             )
