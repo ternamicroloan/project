@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react'
 import {useDispatch,useSelector }from 'react-redux'
 import {Accordion,Card,Row,Col,Container,Image,Button, ResponsiveEmbed,Badge,Form,Tabs,Tab,ProgressBar} from 'react-bootstrap'
-import userImage from '../images/person1.jpg' 
+import userImage from '../images/default_user.png' 
 import {getStudentDetails, updateStudentProfile} from '../actions/studentActions'
 import {getLenderDetails,updateLenderProfile} from '../actions/lenderActions'
 import Loader from '../components/Loader'

@@ -28,10 +28,10 @@ const HomePage = () => {
         <>
             <JumbotronContainer/>
             <Jumbotron  style={{padding:"3%",backgroundColor:'moonlight'}}>
-                <Container>
+                <Container fluid>
                     <Row>
-                        <Col xs={12} md={4} style={{border:'20px'}}>
-                            <Card className="text-center mb-2" style={{ width: '18rem',backgroundColor:'#011338'
+                        <Col xs={12} md={4} >
+                            <Card className="text-center mb-2" style={{backgroundColor:'#011338'
                             ,color:'white',boxShadow:'5px 5px 10px grey' }}>
                                 <Card.Body>
                                     <i style={{fontSize:'30px'}} class="fas fa-dollar-sign"></i>
@@ -44,7 +44,7 @@ const HomePage = () => {
                             </Card>
                         </Col>
                         <Col xs={12} md={4} style={{border:'20px'}}>
-                            <Card className="text-center mb-2" style={{ width: '18rem',backgroundColor:'#011338'
+                            <Card className="text-center mb-2" style={{backgroundColor:'#011338'
                             ,color:'white',boxShadow:'5px 5px 10px grey' }}>
                                 <Card.Body>
                                     <i style={{fontSize:'30px'}} class="far fa-money-bill-alt"></i>
@@ -57,7 +57,7 @@ const HomePage = () => {
                             </Card>
                         </Col>
                         <Col xs={12} md={4} style={{border:'20px'}}>
-                            <Card className="text-center mb-2" style={{ width: '18rem',backgroundColor:'#011338'
+                            <Card className="text-center mb-2" style={{backgroundColor:'#011338'
                             ,color:'white',boxShadow:'5px 5px 10px grey' }}>
                                 <Card.Body>
                                     <i style={{fontSize:'30px'}} class="fas fa-lock"></i>
