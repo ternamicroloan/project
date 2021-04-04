@@ -12,7 +12,7 @@ export const loginAdmin =(email,password)=>async(dispatch)=>{
             }
         }
 
-        const {data} = await axios.post('/admin/login',{email,password},config)
+        const {data} = await axios.post('/api/admin/login',{email,password},config)
 
         dispatch({
             type:'ADMIN_LOGIN_SUCCESS',
@@ -50,7 +50,7 @@ export const getAllLender = () =>async(dispatch)=>{
             }
         }
 
-        const {data} = await axios.get(`/admin/lenders`,config)
+        const {data} = await axios.get(`/api/admin/lenders`,config)
 
         dispatch({
             type:'GET_ALL_LENDERS_SUCCESS',
@@ -77,7 +77,7 @@ export const getAllStudent = () =>async(dispatch)=>{
             }
         }
 
-        const {data} = await axios.get(`/admin/students`,config)
+        const {data} = await axios.get(`/api/admin/students`,config)
 
         dispatch({
             type:'GET_ALL_STUDENTS_SUCCESS',
@@ -104,7 +104,7 @@ export const deleteStudent =(id)=>async(dispatch)=>{
         }
     }
 
-    await axios.delete(`/admin/students/${id}`,config)
+    await axios.delete(`/api/admin/students/${id}`,config)
 
     dispatch({
         type:'DELETE_STUDENT_SUCCESS',
@@ -130,7 +130,7 @@ export const deleteLender =(id)=>async(dispatch)=>{
         }
     }
 
-    await axios.delete(`/admin/lenders/${id}`,config)
+    await axios.delete(`/api/admin/lenders/${id}`,config)
 
     dispatch({
         type:'DELETE_LENDER_SUCCESS',
@@ -156,7 +156,7 @@ export const getAllLoan = () =>async(dispatch)=>{
             }
         }
 
-        const {data} = await axios.get(`/admin/loans`,config)
+        const {data} = await axios.get(`/api/admin/loans`,config)
 
         dispatch({
             type:'GET_ALL_LOANS_SUCCESS',
@@ -183,7 +183,7 @@ export const verifyLoan = (loan)=>async(dispatch)=>{
             }
         }
     
-        await axios.put(`/admin/loans/${loan.id}/verified`,loan,config)
+        await axios.put(`/api/admin/loans/${loan.id}/verified`,loan,config)
     
         dispatch({
             type:'LOAN_VERIFY_SUCCESS',

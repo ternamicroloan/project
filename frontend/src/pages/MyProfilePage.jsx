@@ -75,7 +75,7 @@ const MyProfilePage = ({history}) => {
                     'Content-Type':'multipart/form-data',
                 }
             }
-            const {data}=await axios.post('/upload',formData,config)
+            const {data}=await axios.post('/api/upload',formData,config)
             console.log(data);
             setAdhaarPicture(data)
         }catch(error){
@@ -94,7 +94,7 @@ const MyProfilePage = ({history}) => {
                     'Content-Type':'multipart/form-data'
                 }
             }
-            const {data}=await axios.post('/upload',formData,config)
+            const {data}=await axios.post('/api/upload',formData,config)
             console.log(data);
             setGuardianAdhaarPicture(data)
         }catch(error){

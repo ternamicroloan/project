@@ -15,7 +15,7 @@ export const createLoan =(loan)=>async(dispatch,getState)=>{
             }
         }
 
-        const {data}=await axios.post('/loans',loan,config)
+        const {data}=await axios.post('/api/loans',loan,config)
 
         dispatch({
             type:'LOAN_CREATE_SUCCESS',
@@ -45,7 +45,7 @@ export const getLoanByStudentId =(student_id)=>async(dispatch,getState)=>{
             }
         }
 
-        const {data}=await axios.get(`/loans/student/${student_id}`,config)
+        const {data}=await axios.get(`/api/loans/student/${student_id}`,config)
 
         dispatch({
             type:'STUDENT_LOAN_DETAILS_SUCCESS',
@@ -71,7 +71,7 @@ export const getLoanById = (loan_id) =>async(dispatch)=>{
             }
         }
 
-        const {data} =await axios.get(`/loans/${loan_id}`,config)
+        const {data} =await axios.get(`/api/loans/${loan_id}`,config)
 
         dispatch({
             type:'LOAN_DETAILS_SUCCESS',
@@ -101,7 +101,7 @@ export const grantLoan = (loan)=>async(dispatch,getState)=>{
             }
         }
     
-        const {data}=await axios.put(`/loans/${loan.id}/granted`,loan,config)
+        const {data}=await axios.put(`/api/loans/${loan.id}/granted`,loan,config)
     
         dispatch({
             type:'LOAN_GRANT_SUCCESS',
@@ -131,7 +131,7 @@ export const getLoanByLenderId =(lender_id)=>async(dispatch,getState)=>{
             }
         }
 
-        const {data}=await axios.get(`/loans/lender/${lender_id}`,config)
+        const {data}=await axios.get(`/api/loans/lender/${lender_id}`,config)
 
         dispatch({
             type:'LENDER_LOAN_DETAILS_SUCCESS',
@@ -161,7 +161,7 @@ export const updateInstallment =(loan_id,installment_id)=>async(dispatch,getStat
             }
         }
 
-        const {data}=await axios.put(`/loans/${loan_id}/installments/${installment_id}`,config)
+        const {data}=await axios.put(`/api/loans/${loan_id}/installments/${installment_id}`,config)
 
         dispatch({
             type:'INSTALLMENT_UPDATE_SUCCESS',
@@ -187,7 +187,7 @@ export const updateLoan = (loan_id)=>async(dispatch)=>{
             }
         }
     
-        const {data}=await axios.put(`/loans/${loan_id}/completed`,config)
+        const {data}=await axios.put(`/api/loans/${loan_id}/completed`,config)
     
         dispatch({
             type:'LOAN_COMPLETE_SUCCESS',

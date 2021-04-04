@@ -53,7 +53,7 @@ const LoginPage = ({history,location}) => {
     }
 
     const responseSuccessGoogle = async(response) => {
-        const {data}= await axios.post('/googlelogin',{tokenId:response.tokenId})
+        const {data}= await axios.post('/api/googlelogin',{tokenId:response.tokenId})
         const {useremail,email_verified}=data
         const pass='abc'//dummy password which is required as per structuring in action creators
         if(email_verified){

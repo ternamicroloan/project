@@ -12,7 +12,7 @@ export const loginStudent =(email,password,email_verified)=>async(dispatch)=>{
             }
         }
 
-        const {data} = await axios.post('/student/login',{email,password,email_verified},config)
+        const {data} = await axios.post('/api/student/login',{email,password,email_verified},config)
 
         dispatch({
             type:'STUDENT_LOGIN_SUCCESS',
@@ -47,7 +47,7 @@ export const signupStudent =(student)=>async(dispatch)=>{
             }
         }
 
-        const {data} = await axios.post('/student/signup',student,config)
+        const {data} = await axios.post('/api/student/signup',student,config)
         console.log(data);
         dispatch({
             type:'STUDENT_SIGNUP_SUCCESS',
@@ -86,7 +86,7 @@ export const getStudentDetails = (id) =>async(dispatch,getState)=>{
             }
         }
 
-        const {data} = await axios.get(`/student/${id}`,config)
+        const {data} = await axios.get(`/api/student/${id}`,config)
 
         dispatch({
             type:'STUDENT_DETAILS_SUCCESS',
@@ -120,7 +120,7 @@ export const updateStudentProfile =(student) => async(dispatch,getState)=>{
 
 
         //If logged in as admin the id will be present in student object provided as props to function else it will be present in studentInfo
-        const {data} = await axios.put(`/student/${studentInfo?studentInfo._id:student.id}`,student,config)
+        const {data} = await axios.put(`/api/student/${studentInfo?studentInfo._id:student.id}`,student,config)
         
         dispatch({
             type:'STUDENT_UPDATE_PROFILE_SUCCESS',

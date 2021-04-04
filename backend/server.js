@@ -21,13 +21,13 @@ app.use(express.urlencoded({
 
 app.use(cors())
 
-app.use('/student',studentRoutes)
-app.use('/lender',lenderRoutes)
-app.use('/admin',adminRoutes)
-app.use('/loans',loanRoutes)
-app.use('/payment',razorpayRoutes)
-app.use('/googlelogin',googleRoutes)
-app.use('/upload',uploadRoutes)
+app.use('/api/student',studentRoutes)
+app.use('/api/lender',lenderRoutes)
+app.use('/api/admin',adminRoutes)
+app.use('/api/loans',loanRoutes)
+app.use('/api/payment',razorpayRoutes)
+app.use('/api/googlelogin',googleRoutes)
+app.use('/api/upload',uploadRoutes)
 
 const __dirname = path.resolve()
 app.use('/uploads',express.static(path.join(__dirname,'/uploads')))

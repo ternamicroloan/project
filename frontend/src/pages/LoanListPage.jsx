@@ -45,7 +45,7 @@ const LoanListPage = ({history}) => {
         {(loansLoading) && <Loader />}
         {(loansError) && <Message variant='danger'>{loansError?loansError:loansError}</Message>}
         {/*() && <Message variant='info'>{`${updateSuccess?'Update Successful. Please referesh to see changes!!':'Delete Successful. Please referesh to see changes !!'}`} </Message>*/}
-            <Table striped bordered hover responsive className='table-sm'>
+           {loans &&  <Table striped bordered hover responsive className='table-sm'>
             <thead>
                 <tr>
                     <td>ID</td>
@@ -69,7 +69,7 @@ const LoanListPage = ({history}) => {
                 ))}
             </tbody>
         </Table>
-        
+        }
         
     </div>
     )

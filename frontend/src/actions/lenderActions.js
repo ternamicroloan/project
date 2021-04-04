@@ -12,7 +12,7 @@ export const loginLender =(email,password,email_verified)=>async(dispatch)=>{
             }
         }
 
-        const {data} = await axios.post('/lender/login',{email,password,email_verified},config)
+        const {data} = await axios.post('/api/lender/login',{email,password,email_verified},config)
 
         dispatch({
             type:'LENDER_LOGIN_SUCCESS',
@@ -45,7 +45,7 @@ export const signupLender =(lender)=>async(dispatch)=>{
             }
         }
 
-        const {data} = await axios.post('/lender/signup',lender,config)
+        const {data} = await axios.post('/api/lender/signup',lender,config)
 
         dispatch({
             type:'LENDER_SIGNUP_SUCCESS',
@@ -85,7 +85,7 @@ export const getLenderDetails = (id) =>async(dispatch,getState)=>{
             }
         }
 
-        const {data} = await axios.get(`/lender/${id}`,config)
+        const {data} = await axios.get(`/api/lender/${id}`,config)
 
         dispatch({
             type:'LENDER_DETAILS_SUCCESS',
@@ -115,7 +115,7 @@ export const updateLenderProfile =(lender) => async(dispatch,getState)=>{
             }
         }
 
-        const {data} = await axios.put(`/lender/${lenderInfo?lenderInfo._id:lender.id}`,lender,config)
+        const {data} = await axios.put(`/api/lender/${lenderInfo?lenderInfo._id:lender.id}`,lender,config)
 
         dispatch({
             type:'LENDER_UPDATE_PROFILE_SUCCESS',

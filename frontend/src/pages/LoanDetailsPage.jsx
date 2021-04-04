@@ -77,10 +77,10 @@ const LoanDetailsPage = ({history}) => {
             }
         }
 
-		const {data} = await axios.post('/payment/razorpay',{installment_amt,installment_id,loan_id},config)
+		const {data} = await axios.post('/api/payment/razorpay',{installment_amt,installment_id,loan_id},config)
 
 		const options = {
-			key: __DEV__ ? 'rzp_test_lruq7Zad1wsULF' : 'PRODUCTION_KEY',
+			key: 'rzp_test_lruq7Zad1wsULF',      //__DEV__ ? 'rzp_test_lruq7Zad1wsULF' : 'PRODUCTION_KEY' ,
 			currency: data.currency,
 			amount: data.amount.toString(),
 			order_id: data.id,

@@ -56,7 +56,7 @@ const SignupPage = ({history,location}) => {
 
 
     const responseSuccessGoogle = async(response) => {
-        const {data}= await axios.post('/googlelogin',{tokenId:response.tokenId})
+        const {data}= await axios.post('/api/googlelogin',{tokenId:response.tokenId})
         const {username,useremail,email_verified}=data
         console.log(email_verified);
         if(email_verified){
