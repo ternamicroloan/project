@@ -34,7 +34,7 @@ const ApplyForLoanPage = ({history}) => {
     const loanCreate=useSelector(state=>state.loanCreate)
     const{loan,success:loanCreateSuccess,error:loanCreateError}=loanCreate
     
-
+console.log(emi);
     const dispatch=useDispatch()
 
     useEffect(()=>{
