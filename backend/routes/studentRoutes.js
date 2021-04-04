@@ -14,8 +14,8 @@ const router=express.Router()
 const authStudent=asyncHandler(async(req,res)=>{
     const {email,password,email_verified}=req.body //email_verified will be present if user signs up using google
     const user = await Student.findOne({email_address:email})
-
-    if((user && user.matchPassword(password))||email_verified){
+    if((user && (await user.matchPassword(password)))|| (email_verified!==undefined )){
+        
         res.json({
             _id:user._id,
             name:user.name,

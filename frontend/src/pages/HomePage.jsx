@@ -2,7 +2,7 @@ import React, {useState}from 'react'
 import JumbotronContainer from '../components/JumbotronContainer' 
 import {Row,Col,Button,Container,Image, Jumbotron,Card,ResponsiveEmbed} from 'react-bootstrap'
 import LoanImage from '../images/loanImage.jpg'
-import network from '../images/Network.jpg' 
+import network from '../images/Network_8x.jpg' 
 import Stepper from 'react-stepper-horizontal'
 import stepper1 from '../images/stepperSignup.png'
 import stepper2 from '../images/stepperDocs.jpg'
@@ -76,7 +76,15 @@ const HomePage = () => {
                 <Row>
                     <Col md={{span:6,order:'first'}} xs={{span:12,order:'last'}}>
                         <Row className='pl-3'>
-                            <p className='lead' style={{padding:'10%',top:'50%',textAlign:'justify'}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                            <p className='lead' style={{padding:'10%',top:'50%',textAlign:'justify'}}>
+                            Improving access to education should be a top priority globally. 
+                            Investing in higher education is a must if a country wants to encourage economic development.
+                            Education shapes the next generation of innovators, inventors and experts.
+                            Student micro-loans create an education option for students.By enabling education,
+                            students around the world have the chance to pursue knowledge and skills,
+                            and they are more competitive in the workforce and have the opportunity to break the cycle of generational poverty.
+                             When even one person steps away from poverty, it benefits them, their family and their community at large. 
+                            </p>
                         </Row>
                     </Col>
                     <Col md={{span:6,order:'last'}} xs={{span:12,order:'first'}}>
@@ -123,7 +131,10 @@ const HomePage = () => {
                     <Row>
                         <Col>
                             <p style={{textAlign:'center'}}>
-                                A peer to peer lending or P2P Lending platform facilitates borrowing and lending money directly through an online platform like Lendbox, making it affordable to get loans online compared to banks. Lendbox is poised to change the way India lends and borrows.
+                            Peer-to-peer (P2P) lending platforms offer themselves an easy solution to borrow money for short-term requirements.
+                            it easier to borrow from P2P lending platforms compare to traditional personal loans from banks and 
+                            Non-Banking Financial Companies (NBFCs) as process and disbursement of the loan amount is quick at P2P lending platforms 
+                            compared to applying for a personal loan at a bank.
                             </p>            
                         </Col>
                     </Row>
@@ -137,14 +148,15 @@ const HomePage = () => {
                     <Row>
                         <Col>
                             <p style={{textAlign:'center'}}>
-                                Investing in consumer credit at scale was previously accessible only by banks. Companies like Lendbox have opened the doors of this asset class to retail and institutional investors. The P2P process is simple - people looking to borrow apply for loans, and their applications are carefully screened. As an investor, you can spread your money across multiple loans in increments as low as ₹500, and receive monthly payments.
+                            The benefit of P2P lending is that process is simple to commence borrowing and investment using this platform. Lending can be done with an amount as low as Rs 5,000.
+                             This P2P lending platforms also provide analysis of borrower’s profiles that helps in easy decision making before lending.
                             </p>            
                         </Col>
                     </Row>
                     <Row>
                         <Col>
                             <p style={{textAlign:'center'}}>
-                                At your discretion, you select the people you want to invest in or get a loan from. At Lendbox, you have the power to choose your terms and enjoy complete transparency.
+                                At your discretion, you select the people you want to invest in or get a loan from. As a student you have the power to choose your terms and enjoy complete transparency.
                             </p>            
                         </Col>
                     </Row>

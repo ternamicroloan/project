@@ -13,7 +13,6 @@ import axios from 'axios'
 import studimg from '../images/studlogin.jpg'
 import lenderimg from '../images/lenderlogin.jpg'
 
-
 const LoginPage = ({history,location}) => {
 
     const [email,setEmail]=useState('')
@@ -77,9 +76,12 @@ const LoginPage = ({history,location}) => {
             <Container>
                 <Row>
                     <Col xs={12} md={4} style={{marginTop:'10%'}}>
+                        {url!=='/adminlogin' && 
                         <ResponsiveEmbed aspectRatio='16by9' >
                             <Image  src={url==='/studentlogin'?studimg:lenderimg} style={{borderRadius:'10%'}}/>
                         </ResponsiveEmbed>
+                        }
+                        
                     </Col>
                     <Col xs={12} md={8}>
                     <FormContainer>
@@ -112,9 +114,11 @@ const LoginPage = ({history,location}) => {
 
                 </Row>
                     <Row style={{paddingTop:'20px'}}>
+                        {url!=='/adminlogin' &&
                         <Col>Not a User? 
                             {url==='/studentlogin'?<Link to={'/signup/student'}>Register</Link>:<Link to={'/signup/lender'}>Register</Link>}
                         </Col>
+                        }
                     </Row>
                 </Form>
             </FormContainer>

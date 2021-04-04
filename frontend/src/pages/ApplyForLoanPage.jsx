@@ -3,7 +3,6 @@ import {useSelector,useDispatch}from 'react-redux'
 import Stepper from 'react-stepper-horizontal'
 import {Form,Row,Col,Button, Container,Card,ListGroup,Image, Jumbotron} from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
-import ImageUploader from 'react-images-upload'
 import { getStudentDetails } from '../actions/studentActions'
 import {createLoan} from '../actions/loanActions'
 import Loader from '../components/Loader'
@@ -23,8 +22,8 @@ const ApplyForLoanPage = ({history}) => {
     const [semester,setSemester]=useState()
     const [adhaar,setAdhaar]=useState()
     const [guardianAdhaar,setGuardianAdhaar]=useState()
-    const [adhaarPicture,setAdhaarPicture]=useState()
-    const [guardianAdhaarPicture,setGuardianAdhaarPicture]=useState()
+    const [adhaarImage,setAdhaarImage]=useState()
+    const [guardianAdhaarImage,setGuardianAdhaarImage]=useState()
 
     const studentDetails=useSelector(state=>state.studentDetails)
     const {loading:studentDetailsLoading,error:studentDetailsError,student}=studentDetails
@@ -48,24 +47,14 @@ const ApplyForLoanPage = ({history}) => {
             setSemester(student.semester)
             setAdhaar(student.adhaar_number)
             setGuardianAdhaar(student.guardian_adhaar_number)
+            setAdhaarImage(student.adhaar_image)
+            setGuardianAdhaarImage(student.guardian_adhaar_image)
         }
         if(loanCreateSuccess){
             history.push(`/loans/${loan._id}`)
         }
     },[history,student,dispatch,studentInfo,loanCreateSuccess,loan])
 
-
-    const onDropStudent = picture => {
-        const {name}=picture[0]
-
-        setAdhaarPicture(name)
-      };
-
-      const onDropGuardian = picture => {
-        const {name}=picture[0]
-
-        setGuardianAdhaarPicture(name)
-      };
 
       const submitHandler=()=>{
         const emi= Math.round(amount/duration)
@@ -90,7 +79,7 @@ const ApplyForLoanPage = ({history}) => {
 
     return (
         <div>
-            <Jumbotron style={{backgroundImage:`url(${image})` ,backgroundSize:'cover',backgroundPosition:'center',height:'100vh'
+            <Jumbotron style={{backgroundImage:`url(${image})` ,backgroundSize:'cover',backgroundPosition:'center'
             ,backgroundBlendMode:'overlay'}} fluid>
             {studentDetailsLoading && <Loader/>}
             {studentDetailsError && <Message variant='danger'>{studentDetailsError}</Message>}
@@ -171,9 +160,6 @@ const ApplyForLoanPage = ({history}) => {
                             <Form.Label>Guardian Adhaar Number</Form.Label>
                             <Form.Control type='integer' placeholder='Guardian Adhaar Number' value={guardianAdhaar} onChange={(e)=>setGuardianAdhaar(e.target.value)}  />
                         </Form.Group>
-                        <ImageUploader withIcon={true} buttonText='Choose image' withPreview={true} withLabel={true} label='Student Adhaar Card' imgExtension={['.jpg','.jpeg','.png']} onChange={onDropStudent}/>
-                        <ImageUploader withIcon={true} buttonText='Choose image' withPreview={true} withLabel={true} label='Guardian Adhaar Card' imgExtension={['.jpg','.jpeg','.png']} onChange={onDropGuardian} />
-
                         <Button type='submit' variant='primary'>Proceed</Button>
                       
                     </Form>
@@ -279,8 +265,8 @@ const ApplyForLoanPage = ({history}) => {
                                     <ListGroup.Item>
                                         <Row>
                                             <Col>Docs uploaded:</Col>
-                                            <Col><Image widht={200} height={200} src={`../images/${adhaarPicture}`} /></Col>
-                                            <Col><Image widht={200} height={200} src={`../images/${guardianAdhaarPicture}`} /></Col>
+                                            <Col><Image widht={200} height={200} src={adhaarImage} /></Col>
+                                            <Col><Image widht={200} height={200} src={guardianAdhaarImage} /></Col>
                                         </Row>
                                     </ListGroup.Item>
                                 </ListGroup>

@@ -1,8 +1,10 @@
+import bcrypt from 'bcryptjs'
+
 const lenders=[
     {
         name:'Aditya',
         email_address:'aditya@lender.com',
-        password:'1234',
+        password:bcrypt.hashSync('1234',10),
         address:'1704 A-wing',
         city:'Thane',
         state:'Maharashtra',
@@ -15,7 +17,7 @@ const lenders=[
     {
         name:'Jay',
         email_address:'jay@lender.com',
-        password:'1235',
+        password:bcrypt.hashSync('1235',10),
         address:'1704 B-wing',
         city:'Nashik',
         state:'Maharashtra',
@@ -28,7 +30,7 @@ const lenders=[
     {
         name:'Vinay',
         email_address:'vinay@lender.com',
-        password:'1236',
+        password:bcrypt.hashSync('1236',10),
         address:'1704 C-wing',
         city:'Nerul',
         state:'Maharashtra',
@@ -41,7 +43,7 @@ const lenders=[
     {
         name:'Sushant ',
         email_address:'sushant@lender.com',
-        password:'1237',
+        password:bcrypt.hashSync('1237',10),
         address:'1704 D-wing',
         city:'Vashi',
         state:'Maharashtra',

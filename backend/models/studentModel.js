@@ -72,7 +72,7 @@ const studentSchema = mongoose.Schema({
 
 studentSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password)
-  }
+}
   
   studentSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {//this.isModified checks if the password is modified during profile update

@@ -48,9 +48,14 @@ useEffect(()=>{
               <Row>
                 <Col xs={12} md={6}>
                   <h3>Hi, {studentInfo.name}</h3>
-                  <p>
-                    Investment in Knowledge pays the best interest.
-                  </p>
+                  <blockquote className="blockquote mb-0 card-body">
+                    <p>
+                    The only thing that will stop you from fulfilling your dreams is you.
+                    </p>
+                    <footer className="blockquote-footer">
+                      <small className="text-muted">Tom Bradley</small>
+                    </footer>
+                  </blockquote>
                 </Col>
                 <Col xs={12} md={6}>
                   <ResponsiveEmbed aspectRatio="16by9" style={{boxShadow:'8px 8px 16px grey'}}>

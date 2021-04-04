@@ -5,6 +5,7 @@ import {LinkContainer} from 'react-router-bootstrap'
 import { logoutStudent } from '../actions/studentActions'
 import { logoutLender } from '../actions/lenderActions'
 import {logoutAdmin} from '../actions/adminActions'
+import logo from '../images/headerlogo.jpg'
 
 const Header = ({history}) => {
 
@@ -84,7 +85,13 @@ const Header = ({history}) => {
             ):(
                 <Navbar style={{background:'#011338'}} variant='dark' collapseOnSelect expand='lg'>
                 <LinkContainer to='/'>
-                    <Navbar.Brand>Micro Loan Management</Navbar.Brand>
+                    <Navbar.Brand><img
+                        src={logo}
+                        width="30"
+                        height="30"
+                        className="d-inline-block align-top "
+                        alt="Micro Loan"
+                    />{' '}Micro Loan</Navbar.Brand>
                 </LinkContainer>
                 <Navbar.Toggle aria-controls='basic-navbar-nav'/>
                 <Navbar.Collapse id='basic-navbar-nav'>

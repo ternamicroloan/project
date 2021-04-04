@@ -1,9 +1,11 @@
+import bcrypt from 'bcryptjs'
+
 const students=[
     {
         name:'Aditya Agarkhed',
         college_id:'TU3F1718099',
         email_address:'aditya@student.com',
-        password:'1234',
+        password: bcrypt.hashSync('1234',10),
         address:'1704 A-wing',
         city:'Thane',
         state:'Maharashtra',
@@ -23,7 +25,7 @@ const students=[
         name:'Jay Chaudhari',
         college_id:'TU3F1718098',
         email_address:'jay@student.com',
-        password:'1235',
+        password:bcrypt.hashSync('1235',10),
         address:'1704 B-wing',
         city:'Nashik',
         state:'Maharashtra',
@@ -43,7 +45,7 @@ const students=[
         name:'Vinay Shirole',
         college_id:'TU3F1718097',
         email_address:'vinay@student.com',
-        password:'1236',
+        password:bcrypt.hashSync('1236',10),
         address:'1704 C-wing',
         city:'Nerul',
         state:'Maharashtra',
@@ -63,7 +65,7 @@ const students=[
         name:'Sushant Jadhav',
         college_id:'TU3F1718096',
         email_address:'sushant@student.com',
-        password:'1237',
+        password:bcrypt.hashSync('1237',10),
         address:'1704 D-wing',
         city:'Vashi',
         state:'Maharashtra',
