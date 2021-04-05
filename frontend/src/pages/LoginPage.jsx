@@ -13,6 +13,7 @@ import axios from 'axios'
 import studimg from '../images/studlogin.jpg'
 import lenderimg from '../images/lenderlogin.jpg'
 
+
 const LoginPage = ({history,location}) => {
 
     const [email,setEmail]=useState('')
