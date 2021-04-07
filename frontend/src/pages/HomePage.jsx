@@ -37,8 +37,7 @@ const HomePage = () => {
                                     <i style={{fontSize:'30px'}} class="fas fa-dollar-sign"></i>
                                     <Card.Title>0% Interest Loans</Card.Title>
                                     <Card.Text>
-                                    Some quick example text to build on the card title and make up the bulk of
-                                    the card's content.
+                                        you don't have to pay any interest on any loan amount you opt for
                                     </Card.Text>
                                 </Card.Body>
                             </Card>
@@ -48,10 +47,9 @@ const HomePage = () => {
                             ,color:'white',boxShadow:'5px 5px 10px grey' }}>
                                 <Card.Body>
                                     <i style={{fontSize:'30px'}} class="far fa-money-bill-alt"></i>
-                                    <Card.Title>Get Loan upto 10000/ INR</Card.Title>
+                                    <Card.Title>Get Loan upto 50000/ INR</Card.Title>
                                     <Card.Text>
-                                    Some quick example text to build on the card title and make up the bulk of
-                                    the card's content.
+                                        Fulfill minimum eligibility criteria and recieve instant disbursment of upto 50000 rs from available lenders
                                     </Card.Text>
                                 </Card.Body>
                             </Card>
@@ -63,8 +61,7 @@ const HomePage = () => {
                                     <i style={{fontSize:'30px'}} class="fas fa-lock"></i>
                                     <Card.Title>Secure Payments</Card.Title>
                                     <Card.Text>
-                                    Some quick example text to build on the card title and make up the bulk of
-                                    the card's content.
+                                        Handle your payments securely using razorpay payment gateway
                                     </Card.Text>
                                 </Card.Body>
                             </Card>
@@ -77,13 +74,14 @@ const HomePage = () => {
                     <Col md={{span:6,order:'first'}} xs={{span:12,order:'last'}}>
                         <Row className='pl-3'>
                             <p className='lead' style={{padding:'10%',top:'50%',textAlign:'justify'}}>
-                            Improving access to education should be a top priority globally. 
-                            Investing in higher education is a must if a country wants to encourage economic development.
-                            Education shapes the next generation of innovators, inventors and experts.
-                            Student micro-loans create an education option for students.By enabling education,
-                            students around the world have the chance to pursue knowledge and skills,
-                            and they are more competitive in the workforce and have the opportunity to break the cycle of generational poverty.
-                             When even one person steps away from poverty, it benefits them, their family and their community at large. 
+                            Improving access to schooling ought to be a first concern worldwide. 
+                            Putting resources into advanced education is an absolute necessity if a nation needs to support financial 
+                            advancement. Training shapes the up and coming age of trend-setters, innovators and 
+                            specialists. Understudy miniature advances make training choice for students.By empowering 
+                            instruction, understudies all throughout the planet get the opportunity to seek after information and abilities, 
+                            what's more, they are more serious in the labor force and have the chance to break the 
+                            pattern of generational neediness. When even one individual advances from neediness, it 
+                            benefits them, their family and their local area on the loose.
                             </p>
                         </Row>
                     </Col>
@@ -131,10 +129,9 @@ const HomePage = () => {
                     <Row>
                         <Col>
                             <p style={{textAlign:'center'}}>
-                            Peer-to-peer (P2P) lending platforms offer themselves an easy solution to borrow money for short-term requirements.
-                            it easier to borrow from P2P lending platforms compare to traditional personal loans from banks and 
-                            Non-Banking Financial Companies (NBFCs) as process and disbursement of the loan amount is quick at P2P lending platforms 
-                            compared to applying for a personal loan at a bank.
+                            Distributed loaning stages offer a simple strategy to get an amount of cash for a brief time-frame. 
+                            It is easier to lend loan from one Peer to another.
+                            Loaning stages when contrasted with individual credits from banks and Non-Banking Financial Companies as interaction and payment of the advance sum is speedy at Peer to Peer loaning stages contrasted with applying for an individual advance at a bank
                             </p>            
                         </Col>
                     </Row>
@@ -148,8 +145,11 @@ const HomePage = () => {
                     <Row>
                         <Col>
                             <p style={{textAlign:'center'}}>
-                            The benefit of P2P lending is that process is simple to commence borrowing and investment using this platform. Lending can be done with an amount as low as Rs 5,000.
-                             This P2P lending platforms also provide analysis of borrower’s profiles that helps in easy decision making before lending.
+                            The good thing about Peer to Peer disposition is that method is easy to start borrowing and investment in this platform.
+                            Disposition is through with associate quantity as low as 5,000 Rupees.
+                            This Peer to Peer disposition platforms conjointly give analysis of borrower’s profiles that helps in straightforward deciding before disposition.
+                            At your discretion, you decide on the folks you would like to speculate in or get a loan from.
+                            As a student you've got the facility to settle on your terms and luxuriate in complete transparency.
                             </p>            
                         </Col>
                     </Row>

@@ -70,7 +70,7 @@ const LoginPage = ({history,location}) => {
         console.log(response);
     }
 
-    const clientID=process.env.REACT_APP_GOOGLE_CLIENT
+    const clientID="283383881272-2loos2etkfngidr5ah0j9hc8vsrraprn.apps.googleusercontent.com"
 
     return (
         <>
